@@ -11,7 +11,7 @@
               <div class="clockAndNumber">
                 <img class="clock" src="../assets/clock1.png" />
                 <p class="reservationNumber">予約{{ index + 1 }}</p>
-                <img class="cross" src="../assets/バツ1.png" @click="del(reservation)" />
+                <img class="cross" src="../assets/バツ1.png" @click="del(reservation)" />
               </div>
               <div class="reservationInfo">
                 <div class="reservation-label">
