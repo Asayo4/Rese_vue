@@ -177,6 +177,7 @@ header {
   margin-bottom: 30px;
 }
 .wrap button {
+  margin-left: 5px;
   margin-right: 1rem;
   border-style: none;
   border-radius: 4px;
