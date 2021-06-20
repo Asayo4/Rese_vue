@@ -146,6 +146,7 @@
             </div>
             <input class="reviewBtn" type="button" @click="changeRev(list.item.id)" value='レビューを更新/削除する' />
           </div>
+          <div class="wrapChangeRev">
           <div class="changeReview" :class="{clickedRev: activeRev.includes(list.item.id)}">
             <ValidationObserver ref="observer" >
               <form @submit.prevent="SubReview(lists)">
@@ -194,6 +195,7 @@
             </ValidationObserver>
             <button class="delReview" @click="delReview(list)">レビューを削除する</button>
             <button class="noChangeReview" @click="noChangeReview">レビュー更新をキャンセル</button>
+          </div>
           </div>
         </div>
       </div>
@@ -829,9 +831,9 @@ export default {
 .changeReview {
   position: fixed;
   width: 320px;
-  bottom: 50px;
+  bottom: 10px;
   left: calc(50% - 160px);
-  height: 650px;
+  height: 630px;
   background-color: floralwhite;
   border-radius: 8px;
   box-shadow: 5px 5px 6px gray;
@@ -843,7 +845,7 @@ export default {
 }
 .shopNameTitle {
   text-align: center;
-  margin: 20px 0 0 0;
+  padding-top: 20px;
   font-size: 1.4rem;
   font-weight: bold;
 }
@@ -902,7 +904,7 @@ export default {
 }
 .textarea {
   width: 300px;
-  height: 80px;
+  height: 50px;
   margin: 5px;
 }
 .send-review {
@@ -910,7 +912,7 @@ export default {
   color: #fff;
   background-color: rgb(0, 0, 253);
   height: 50px;
-  width: 320px;
+  width: 100%;
   cursor: pointer;
   position: absolute;
   bottom: 0;
@@ -965,7 +967,7 @@ export default {
     width: 300px;
   }
   .reviewTitle {
-    margin-top: -300px; 
+    margin-top: -250px; 
   }
   .reviewPanel {
     height: 200px;
@@ -975,7 +977,20 @@ export default {
     margin-top: 31px;
   }
   .changeReview {
-    top: 125px;
+    width: 280px;
+    position: relative;
+    left: 0;
+    height: 680px;
+  }
+  .shopNameTitle {
+    margin-top: 30px;
+  }
+  .textarea {
+    width: 250px;
+    margin: 14px;
+  }
+  .send-review {
+    width: 280px;
   }
   .under {
     margin-bottom: 50px;
@@ -1041,9 +1056,30 @@ export default {
   .reviewTitle {
     margin: 0 20px;
     margin-top: 30px;
+  } 
+  .reviewPanels {
+    width: 270px;
+    margin: 0 20px 10px 0;
+  }
+  .wrapChangeRev {
+    overflow-y: scroll;
   }
   .changeReview{
-    top: 800px;
+    width: 230px;
+    height: 650px;
+    bottom: 10px;
+    left: calc((100% - 230px) / 2);
+  }
+  .attention {
+    width: 200px;
+    margin: 5px calc((50% - 100px));
+  }
+  .textarea {
+    width: 212px;
+    margin: 6px;
+  }
+  .send-review {
+    width: 230px;
   }
 }
 </style>
