@@ -988,6 +988,7 @@ export default {
     margin-left: 0;
     font-size: 1.3rem;
     text-align: center;
+    margin-top: 10px;
   }
   .wrap-column {
     display: block;
