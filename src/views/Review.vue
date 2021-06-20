@@ -4,7 +4,7 @@
       <h1 class="name" v-if="gotName()">{{ user_name }}さん</h1>
       <h1 class="name" v-else>ゲストさん</h1>
       <div class="title">
-        <h1>{{ shop_name }}</h1>
+        <h1 @click="$router.push({ name: 'Detail', params: {id: $route.params.id} })">{{ shop_name }}</h1>
         <p>のレビュー</p>
         <div class="wrapStar">
           <span class="numStar">★</span>
@@ -240,7 +240,11 @@ export default {
 }
 .title h1 {
   font-size: 1.5rem;
-  color: rgb(0, 0, 170);
+  color: rgb(11, 11, 223);
+  border-bottom: 5px solid royalblue;
+  border-top: solid 5px royalblue;
+  padding: 0 5px;
+  cursor: pointer;
 }
 .title p {
   margin-top: 0.5rem;

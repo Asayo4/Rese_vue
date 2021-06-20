@@ -4,10 +4,10 @@
     <div class="wrap-column">
       <div class="left-column">
         <h1 class="title">予約状況</h1>
-        <p class="desc">ご予約が複数ある場合、横にスクロールが可能です。</p>
+        <p class="desc">ご予約が複数ある場合、横にスクロールが可能です。<br>※ご予約日を過ぎるとオレンジ色になります。</p>
         <div class="wrap-reservation-card" v-if="gotReserve">
           <div class="reservation-card" v-for="(reservation,index) in reservations" :key="reservation.item.id" >
-            <div class="reservation">
+            <div class="reservation" :class="{'outOfRes':outRes.includes(reservation.item.id)}">
               <div class="clockAndNumber">
                 <img class="clock" src="../assets/clock1.png" />
                 <p class="reservationNumber">予約{{ index + 1 }}</p>
@@ -34,7 +34,7 @@
                 </div>
               </div>
             </div>
-              <div class="changeReservation" :class="{ 'clickedRes':activeRes.includes(reservation.item.id)}">
+              <div class="changeReservation" :class="{ 'clickedRes':activeRes.includes(reservation.item.id)}" >
                 <ValidationObserver ref="observer" >
                   <form @submit.prevent="Submit(reservation)" >
                     <h1 class="changeTitle">予約更新</h1>
@@ -98,7 +98,7 @@
       </div>
       <div class="right-column">
         <h1>お気に入り店舗</h1>
-        <p class="desc">お気に入りが複数ある場合、横にスクロールが可能です。</p>
+        <p class="desc2">お気に入りが複数ある場合、横にスクロールが可能です。</p>
         <div class="panels" v-if="gotLike" >
           <div class="panel" v-for="like in likes" :key="like.id" >
             <div class="panelImg">
@@ -238,10 +238,10 @@ export default {
       activeRev: [],
       key: "",
       this_day: "",
+      outRes: [],
     }
   },
   beforeCreate() {
-    
   },
   async created() {
     //user_name&nicknameを取り出す
@@ -254,13 +254,14 @@ export default {
     //reservationsテーブルからデータを取り出す
     const reservationShopData = await axios.get(`https://still-coast-90539.herokuapp.com/api/reservations?user_id=${this.$store.state.id}`) 
     this.reservations = reservationShopData.data.data;
-    console.log(this.reservations);
     if (this.reservations.length !== 0) {
       this.gotReserve = true;
     } else {
       this.gotReserve = false;
     }
-    
+
+
+   
     //likesテーブルからデータを取り出す
     const likeShopData = await axios.get(`https://still-coast-90539.herokuapp.com/api/likes?user_id=${this.$store.state.id}`)  
     this.likes = likeShopData.data.data;
@@ -279,6 +280,23 @@ export default {
     const dd = ("0"+today.getDate()).slice(-2);
     const thisDay = yyyy+'-'+mm+'-'+dd;
     this.this_day = thisDay;
+    console.log(this.this_day)
+
+    //期限切れ予約のクラス名を変更するための炙り出し
+    let reserveDate = [];
+    for(let i in this.reservations)
+    {
+      reserveDate[i] = this.reservations[i].item;
+      console.log(reserveDate)
+      for (let index in reserveDate)
+      {let ReserveDate = reserveDate[index].date;
+      console.log(ReserveDate)
+      if(ReserveDate < thisDay){
+        this.outRes.push(reserveDate[index].id);
+        console.log(this.outRes)
+      }
+      }
+    }
 
     //自分がしたレビューを取り出す
      const review = await axios.get(`https://still-coast-90539.herokuapp.com/api/reviews?user_id=${this.$store.state.id}`)
@@ -425,16 +443,7 @@ export default {
       });
       //console.log(result)
       return result
-    },
-    isActive() {
-      return function(){
-      const result = this.Res.some(function(item){
-        return this.Res === item.id
-      }, this);
-      console.log(result)
-      return result;
-      }
-    },
+    }, 
   },
   
 }
@@ -481,7 +490,7 @@ export default {
   background-color: rgba(167, 187, 241, 0.3)
 }
 .desc {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 .reservation-card {
   margin: 0 5px;
@@ -493,6 +502,10 @@ export default {
   height: 300px;
   border-radius: 8px;
   box-shadow: 3px 3px 5px slategray;
+}
+.outOfRes {
+  color: aliceblue;
+  background-color: tomato;
 }
 .clockAndNumber {
   display: flex;
@@ -553,25 +566,24 @@ export default {
 .panel {
   width: 300px;
   background: #fff;
-  border-radius: 0  0 5px 5px;
+  border-radius: 5px;
   box-shadow: 4px 5px 5px #a3a3a3;
   margin: 10px 5px;
   height: 350px;
 }
 .panelImg{
   max-width: 100%;
-  border-radius: 5px 5px 0 0;
   height: auto;
 }
 .panel-content{
-  padding: 10px;
+  padding: 20px 0 5px 20px;
 }
 .panel-title{
-  font-size: 1.5re;
+  font-size: 1.5rem;
 }
 .tags {
   display: flex;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 .area-tags {
   font-size: 12px;
@@ -632,11 +644,11 @@ export default {
   box-shadow: 3px 3px 3px gray;
   position: absolute;
   left: 100%;
-  visibility: hidden;
+  display: none;
   z-index: 1;
 }
 .clickedRes {
-    visibility: visible;
+  display: block;
   }
 .changeTitle {
   font-size: 1.2rem;
@@ -722,7 +734,7 @@ export default {
 }
 .reviewTitle {
   margin: 0 50px;
-  margin-top: -380px;
+  margin-top: -370px;
   font-size: 1.2rem;
   font-weight: bolder;
 }
@@ -752,7 +764,7 @@ export default {
   background-color: #fff;
   border-radius: 8px;
   height: 170px;
-  margin:  10px 0 10px 10px;
+  margin:  10px 10px 10px 0;
   box-shadow: 5px 5px 6px slategrey;
   position: relative;
 }
@@ -823,11 +835,11 @@ export default {
   background-color: floralwhite;
   border-radius: 8px;
   box-shadow: 5px 5px 6px gray;
-  visibility: hidden;
+  display: none;
   z-index: 1;
 }
 .clickedRev {
-  visibility: visible;
+  display: block;
 }
 .shopNameTitle {
   text-align: center;
@@ -928,16 +940,26 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .desc {
-    margin-right: 5%;   
+    margin-bottom: 20px;  
+  }
+  .desc2 {
+    margin-bottom: 10px; 
+  }
+  .wrap-reservation-card {
+    height: 380px;
   }
   .reservation {
     width: 300px;
-    height: 270px;
+    height: 350px;
+    margin: 0 5px;
+  }
+  .panels {
+    height: 390px;
   }
   .updateBtn {
     width: 300px;
     margin-left: -109px;
-    margin-top: 6px;
+    margin-top: 88px;
   }
   .changeReservation {
     width: 300px;
@@ -955,6 +977,9 @@ export default {
   .changeReview {
     top: 125px;
   }
+  .under {
+    margin-bottom: 50px;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -966,11 +991,15 @@ export default {
   }
   .wrap-column {
     display: block;
+    height: auto;
   }
   .left-column {
     width: 80%;
     margin-left: 10%;
     margin-top: 5%;
+  }
+  .wrap-reservation-card {
+    height: 390px;
   }
   .title {
     font-size: 1.2rem;
@@ -987,11 +1016,12 @@ export default {
   }
   .reservation {
     width: 260px;
+    margin-bottom: 10px;
   }
   .updateBtn {
     width: 260px;
     margin-left: -103px;
-    margin-top: 11px;
+    margin-top: 90px;
   }
   .right-column {
     width: 80%;
@@ -1009,7 +1039,7 @@ export default {
   }
   .reviewTitle {
     margin: 0 20px;
-    margin-top: 130px;
+    margin-top: 30px;
   }
   .changeReview{
     top: 800px;

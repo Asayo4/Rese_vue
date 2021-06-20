@@ -205,7 +205,7 @@ export default {
       this.$router.push({ name: 'Shops' })
     },
     inputDay() {
-      //今日ならば現在時刻より後、それ以外は10:00以降、20:30以降は最短日時は明日10:00以降
+      //今日ならば現在時刻より後、または10:00以降、20:30以降は最短日時は明日10:00以降
     console.log(this.date);
     console.log(this.this_day)
     let resrveDay = new Date(this.date);
@@ -459,10 +459,12 @@ export default {
     margin-left: 100%;
   }
   .goToRev{
-    margin-left: 40%;
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
   }
   .goReview {
-    margin-top: 5rem;
+    margin-top: 0.5rem;
   }
   .rightColumn {
     margin-top: 5%;
