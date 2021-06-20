@@ -167,7 +167,7 @@ header {
 .center {
   margin-left: 25%;
   margin-top: 60px;
-  margin-bottom: 60px;
+  margin-bottom: 80px;
 }
 .unLog {
   line-height: 1.3rem;
@@ -229,6 +229,11 @@ header {
   }
   .center {
     margin-left: 5%;
+    margin-bottom: 30px;
+    margin-top: 30px;
+  }
+  .unLog {
+    margin-bottom: -30px;
   }
   .wrap button {
     margin-left: 5px;
