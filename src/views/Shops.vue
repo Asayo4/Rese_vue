@@ -358,8 +358,9 @@ export default {
 /* mobile */
 @media screen and (max-width: 480px){
   .search {
-    margin-left: calc((100% - 320px) / 2);
-    width: 320px;
+    margin-left: calc((50% - 150px) - 3%);
+    justify-content: center;
+    width: 300px;
   }
   .area-search {
     width: 70px;
@@ -373,10 +374,15 @@ export default {
     margin: 10px 0;
   }
   .search-form-input {
-    width: 140px;
+    width: 120px;
   }
-  .panel{
-    justify-items: center;
+  .panels{
+    justify-content: center;
+    margin: auto;
+    display: block;
+  }
+  .panel {
+    margin: 10px 0 10px calc((50% - 150px) - 3%);
   }
 }
 </style>
