@@ -358,7 +358,7 @@ export default {
 /* mobile */
 @media screen and (max-width: 480px){
   .search {
-    margin-left: calc((50% - 150px) - 3%);
+    margin-left: calc(50% - 150px);
     justify-content: center;
     width: 300px;
   }
@@ -382,7 +382,7 @@ export default {
     display: block;
   }
   .panel {
-    margin: 10px 0 10px calc((50% - 150px) - 3%);
+    margin: 10px 0 10px calc(50% - 150px);
   }
 }
 </style>
